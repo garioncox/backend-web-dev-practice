@@ -1,0 +1,33 @@
+﻿@page "/geolocation"
+@inject IJSRuntime JS
+
+<PageTitle>Geolocation</PageTitle>
+
+<h1>Current Position</h1>
+
+<p role="status">
+    <span class="font-weight-bold">Position</span> 
+
+    <span>
+        @if (position.latitude + position.longitude != 0)
+        {
+            <span>Lat: @position.latitude °, Lon: @position.longitude °</span>
+        }
+    </span>
+    
+</p>
+
+<button class="btn btn-primary" @onclick="GetGeoLocation">Update Current Location</button>
+
+@code {
+    (int latitude, int longitude) position = (0, 0);
+
+    private IJSObjectReference? jsModule;
+
+    private async Task GetGeoLocation()
+    {
+        // Todo : Get function name and path
+        // https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/?view=aspnetcore-7.0
+        jsModule = await JS.InvokeAsync<IJSObjectReference>("function name", "./path/to/code");
+    }
+}
