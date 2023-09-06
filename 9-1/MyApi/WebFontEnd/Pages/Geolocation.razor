@@ -26,8 +26,22 @@
 
     private async Task GetGeoLocation()
     {
-        // Todo : Get function name and path
-        // https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/?view=aspnetcore-7.0
-        jsModule = await JS.InvokeAsync<IJSObjectReference>("function name", "./path/to/code");
+        if (!File.Exists("./Data/geolocation.js"))
+        {
+            Console.WriteLine("File Not Found");
+        }
+
+        try
+        {
+            // https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/?view=aspnetcore-7.0
+            jsModule = await JS.InvokeAsync<IJSObjectReference>("getLocation", "./Data/geolocation.js");
+        }
+        catch (Exception ex)
+        {
+            // Error: Could not find 'getLocation' ('getLocation' was undefined).
+            // Not sure how to move on from this. The file is in the correct place.
+            Console.WriteLine($"Error loading JavaScript module: {ex.Message}");
+        }
+
     }
 }
